@@ -20,7 +20,7 @@ Routing requires PHP 7.1+
 
 ## Adding listeners
 
-Listeners are added with an event class or interface name, a listener callback and an optional priority value (default is 0). The listener callback can be any PHP callable and should accept only one argument - the event object.
+Listeners are added with an event class or interface name, a listener callback and an optional priority value (default is 0, negative values allowed). The listener callback can be any PHP callable and should accept only one argument - the event object.
 ```php
 use Semperton\Events\ListenerProvider;
 
@@ -70,9 +70,9 @@ $dispatchedEvent === $event; // true
 $dispatchedEvent->message; // 'Hello World'
 ```
 
-## Delegate listener example
+## DelegateListener example
 
-Coming soon...
+If you want to call service methods in response to events, you may use a ```ContainerInterface``` to resolve your services, etc. For this purpose, a ```DelegateListener``` can be helpful:
 ```php
 final class DelegateListener
 {
