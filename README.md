@@ -3,7 +3,7 @@
 <img src="https://avatars0.githubusercontent.com/u/76976189?s=140" alt="Semperton">
 </a>
 <h1>Semperton Events</h1>
-<p>A minimal, PSR-14 compilant events library.</p>
+<p>A minimal, PSR-14 compilant event library.</p>
 //
 </div>
 
@@ -20,7 +20,7 @@ Routing requires PHP 7.1+
 
 ## Adding listeners
 
-Listeners are added with the event class or interface name, a listener callback and an optinal priority value (default is 0). The listener callback can be any PHP callable and should accept only one argument - the event object.
+Listeners are added with an event class or interface name, a listener callback and an optional priority value (default is 0). The listener callback can be any PHP callable and should accept only one argument - the event object.
 ```php
 use Semperton\Events\ListenerProvider;
 
@@ -30,17 +30,17 @@ final class TestEvent implements EventInterface
 	public $message = '';
 }
 
-$listeners = new ListenerProvider();
+$provider = new ListenerProvider();
 
-$listeners->addListener(TestEvent::class, function (TestEvent $event) {
+$provider->addListener(TestEvent::class, function (TestEvent $event) {
 	$event->message .= ' World';
-}, 5);
+});
 
-$listeners->addListener(EventInterface::class, function (EventInterface $event) {
+$provider->addListener(EventInterface::class, function (EventInterface $event) {
 	$event->message = 'Hello';
-}, 1); // gets called first, because of priority 1
+}, -1); // gets called first, because of higher priority (negatives allowed)
 ```
-If you register a listener with an interface name, that listener will also be triggered, if the dispatched event implements said interface.
+If you register a listener with an interface name, that listener will also be triggered if the dispatched event implements said interface.
 
 ## Removing listeners
 
@@ -48,8 +48,8 @@ Remove listeners with the ```removeListener()``` method. Event name, listener an
 ```php
 $myListener = function (TestEvent $event) {};
 
-$listeners->addListener(TestEvent::class, $myListener, 7);
-$listeners->removeListener(TestEvent::class, $myListener, 7); // priority must match
+$provider->addListener(TestEvent::class, $myListener, 7);
+$provider->removeListener(TestEvent::class, $myListener, 7); // priority must match too
 ```
 
 ## Dispatching
@@ -58,7 +58,8 @@ All you need is a ```ListenerProvider``` (collection of event listeners) and an 
 ```php
 use Semperton\Events\EventDispatcher;
 
-$dispatcher = new EventDispatcher($listeners);
+// using the previously created ListenerProvider
+$dispatcher = new EventDispatcher($provider);
 
 $event = new TestEvent();
 
@@ -66,13 +67,40 @@ $event = new TestEvent();
 $dispatchedEvent = $dispatcher->dispatch($event);
 
 $dispatchedEvent === $event; // true
-$dispatchedEvent->message; // Hello World
-
+$dispatchedEvent->message; // 'Hello World'
 ```
 
-## Lazy listener example
+## Delegate listener example
 
 Coming soon...
 ```php
-	
+final class DelegateListener
+{
+	protected $container;
+	protected $className;
+	protected $methodName;
+
+	public function __construct(ContainerInterface $container, string $className, ?string $methodName = null)
+	{
+		$this->container = $container;
+		$this->className = $className;
+		$this->methodName = $methodName;
+	}
+
+	public function __invoke(object $event): void
+	{
+		$instance = $this->container->get($this->className);
+
+		if ($this->methodName !== null) {
+			if (is_callable([$instance, $this->methodName])) {
+				$instance->{$this->methodName}($event);
+			}
+		} else if (is_callable($instance)) {
+			$instance($event);
+		}
+	}
+}
+
+$listener = new DelegateListener($container, Service::class, 'method');
+$provider->addListener(TestEvent::class, $listener);
 ```
