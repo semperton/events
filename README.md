@@ -16,7 +16,7 @@ Just use Composer:
 ```
 composer require semperton/events
 ```
-Routing requires PHP 7.1+
+Events requires PHP 7.1+
 
 ## Adding listeners
 
