@@ -76,18 +76,4 @@ final class EventsTest extends TestCase
 
 		$this->assertEquals('Hello World', $dispatchedEvent->getMessage());
 	}
-
-	public function testSimpleEvents()
-	{
-		$provider = new ListenerProvider();
-		$dispatcher = new EventDispatcher($provider);
-		$event = new stdClass();
-
-		$provider->addListener($event::class, function(){
-
-
-		});
-
-		$dispatcher->dispatch($event);
-	}
 }
