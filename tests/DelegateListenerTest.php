@@ -14,8 +14,11 @@ final class DelegateListener
 	protected $className;
 	protected $methodName;
 
-	public function __construct(ContainerInterface $container, string $className, ?string $methodName = null)
-	{
+	public function __construct(
+		ContainerInterface $container,
+		string $className,
+		?string $methodName = null
+	) {
 		$this->container = $container;
 		$this->className = $className;
 		$this->methodName = $methodName;
