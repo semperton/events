@@ -12,7 +12,7 @@ class ListenerProvider implements ListenerProviderInterface
 
 	public function addListener(string $eventName, callable $listener, int $priority = 0): self
 	{
-		if ( // check for duplicate listener
+		if ( // check for listener duplicate
 			isset($this->eventListeners[$priority][$eventName])
 			&& in_array($listener, $this->eventListeners[$priority][$eventName], true)
 		) {
@@ -35,7 +35,7 @@ class ListenerProvider implements ListenerProviderInterface
 			if ($listener === $entry) {
 
 				unset($this->eventListeners[$priority][$eventName][$index]);
-				break;
+				break; // we can stop here, because there should be no other (see addListener)
 			}
 		}
 
