@@ -30,17 +30,17 @@ class ListenerProvider implements ListenerProviderInterface
 			return $this;
 		}
 
-		foreach ($this->eventListeners[$priority][$eventName] as $index => $entry) {
+		$listenerArray = &$this->eventListeners[$priority][$eventName];
 
-			if ($listener === $entry) {
+		$index = array_search($listener, $listenerArray, true);
 
-				unset($this->eventListeners[$priority][$eventName][$index]);
-				break; // we can stop here, because there should be no other (see addListener)
+		if ($index !== false) {
+
+			unset($listenerArray[$index]);
+
+			if (empty($listenerArray)) {
+				unset($listenerArray);
 			}
-		}
-
-		if (empty($this->eventListeners[$priority][$eventName])) {
-			unset($this->eventListeners[$priority][$eventName]);
 		}
 
 		return $this;
