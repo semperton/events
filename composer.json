@@ -16,6 +16,7 @@
 		"semperton/container": "^1.0"
 	},
 	"require": {
-		"psr/event-dispatcher": "^1.0"
+		"psr/event-dispatcher": "^1.0",
+		"psr/container": "^2.0"
 	}
 }
