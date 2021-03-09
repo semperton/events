@@ -74,36 +74,6 @@ $dispatchedEvent->message; // 'Hello World'
 
 If you want to call service methods in response to events, you may use a ```ContainerInterface``` to resolve your services, etc. For this purpose, a ```DelegateListener``` can be helpful:
 ```php
-final class DelegateListener
-{
-	protected $container;
-	protected $className;
-	protected $methodName;
-
-	public function __construct(
-		ContainerInterface $container,
-		string $className,
-		?string $methodName = null
-	) {
-		$this->container = $container;
-		$this->className = $className;
-		$this->methodName = $methodName;
-	}
-
-	public function __invoke(object $event): void
-	{
-		$instance = $this->container->get($this->className);
-
-		if ($this->methodName !== null) {
-			if (is_callable([$instance, $this->methodName])) {
-				$instance->{$this->methodName}($event);
-			}
-		} else if (is_callable($instance)) {
-			$instance($event);
-		}
-	}
-}
-
 $listener = new DelegateListener($container, Service::class, 'method');
 $provider->addListener(TestEvent::class, $listener);
 ```
