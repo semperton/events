@@ -6,8 +6,6 @@ use Semperton\Events\DelegateListener;
 use Semperton\Events\EventDispatcher;
 use Semperton\Events\ListenerProvider;
 
-require_once __DIR__ . '/../vendor/autoload.php';
-
 final class Service
 {
 	public function __invoke(TestEvent $event): void

@@ -6,8 +6,6 @@ use PHPUnit\Framework\TestCase;
 use Semperton\Events\EventDispatcher;
 use Semperton\Events\ListenerProvider;
 
-require_once __DIR__ . '/../vendor/autoload.php';
-
 interface CustomEvent
 {
 	public function setMessage(string $message): void;
