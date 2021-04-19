@@ -6,6 +6,7 @@ namespace Semperton\Events;
 
 class Event implements EventInterface
 {
+	/** @var bool */
 	protected $propagationStopped = false;
 
 	public function stopPropagation(): void

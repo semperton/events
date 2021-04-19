@@ -9,10 +9,13 @@ use Psr\Container\ContainerInterface;
 
 final class DelegateListener
 {
+	/** @var ContainerInterface */
 	protected $container;
 
+	/** @var string */
 	protected $className;
 
+	/** @var null|string */
 	protected $methodName;
 
 	public function __construct(
