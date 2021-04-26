@@ -18,6 +18,9 @@ class EventDispatcher implements EventDispatcherInterface
 		$this->listenerProvider = $listenerProvider;
 	}
 
+	/**
+	 * @psalm-suppress MixedMethodCall
+	 */
 	public function dispatch(object $event): object
 	{
 		$stoppable = $event instanceof StoppableEventInterface;

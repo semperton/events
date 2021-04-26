@@ -25,6 +25,9 @@ class ListenerProvider implements ListenerProviderInterface
 		return $this;
 	}
 
+	/**
+	 * @psalm-suppress UnusedVariable
+	 */
 	public function removeListener(string $eventName, callable $listener, int $priority = 0): self
 	{
 		if (!isset($this->eventListeners[$priority][$eventName])) {
