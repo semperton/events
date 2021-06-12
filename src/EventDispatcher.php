@@ -22,6 +22,7 @@ class EventDispatcher implements EventDispatcherInterface
 	{
 		$stoppable = $event instanceof StoppableEventInterface;
 
+		/** @var StoppableEventInterface $event */
 		if ($stoppable && $event->isPropagationStopped()) {
 			return $event;
 		}
