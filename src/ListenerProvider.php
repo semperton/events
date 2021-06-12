@@ -13,7 +13,7 @@ use function array_search;
 use function array_keys;
 use function sort;
 
-class ListenerProvider implements ListenerProviderInterface
+final class ListenerProvider implements ListenerProviderInterface
 {
 	/** @var array<array<string, callable[]>> */
 	protected $eventListeners = [];
