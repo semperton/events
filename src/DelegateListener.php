@@ -7,6 +7,8 @@ namespace Semperton\Events;
 use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
 
+use function is_callable;
+
 final class DelegateListener
 {
 	/** @var ContainerInterface */

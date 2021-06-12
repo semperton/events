@@ -6,6 +6,13 @@ namespace Semperton\Events;
 
 use Psr\EventDispatcher\ListenerProviderInterface;
 
+use const SORT_NUMERIC;
+
+use function in_array;
+use function array_search;
+use function array_keys;
+use function sort;
+
 class ListenerProvider implements ListenerProviderInterface
 {
 	/** @var array<array<string, callable[]>> */
@@ -25,6 +32,7 @@ class ListenerProvider implements ListenerProviderInterface
 		return $this;
 	}
 
+	/** @psalm-suppress UnusedVariable */
 	public function removeListener(string $eventName, callable $listener, int $priority = 0): self
 	{
 		if (!isset($this->eventListeners[$priority][$eventName])) {
