@@ -1,13 +1,12 @@
 <div align="center">
 <a href="https://github.com/semperton">
-<img src="https://avatars0.githubusercontent.com/u/76976189?s=140" alt="Semperton">
+<img width="140" src="https://raw.githubusercontent.com/semperton/misc/main/readme-logo.svg" alt="Semperton">
 </a>
 <h1>Semperton Events</h1>
 <p>A minimal, PSR-14 compilant event library.</p>
-//
 </div>
 
-<hr>
+---
 
 ## Installation
 
