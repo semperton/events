@@ -18,6 +18,6 @@
 	},
 	"require": {
 		"psr/event-dispatcher": "^1.0",
-		"psr/container": "^1.0"
+		"psr/container": "^1.1|^2.0"
 	}
 }
