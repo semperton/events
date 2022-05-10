@@ -34,9 +34,9 @@ final class EventsTest extends TestCase
 		$provider = new ListenerProvider();
 
 		$event = new TestEvent();
-		$listener1 = function () {
+		$listener1 = static function () {
 		};
-		$listener2 = function () {
+		$listener2 = static function () {
 		};
 
 		$provider->addListener(TestEvent::class, $listener1);
@@ -61,11 +61,11 @@ final class EventsTest extends TestCase
 
 		$event = new TestEvent();
 
-		$provider->addListener(CustomEvent::class, function (CustomEvent $event) {
+		$provider->addListener(CustomEvent::class, static function (CustomEvent $event) {
 			$event->setMessage($event->getMessage() . ' World');
 		}, 2);
 
-		$provider->addListener(TestEvent::class, function (TestEvent $event) {
+		$provider->addListener(TestEvent::class, static function (TestEvent $event) {
 			$event->setMessage('Hello');
 		});
 
