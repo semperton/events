@@ -4,25 +4,25 @@ declare(strict_types=1);
 
 namespace Semperton\Events;
 
-use Psr\Container\ContainerInterface;
 use RuntimeException;
 
 use function is_callable;
 
 final class DelegateListener
 {
-	protected ContainerInterface $container;
+	/** @var callable */
+	protected $resolver;
 
 	protected string $className;
 
 	protected ?string $methodName;
 
 	public function __construct(
-		ContainerInterface $container,
+		callable $resolver,
 		string $className,
 		?string $methodName = null
 	) {
-		$this->container = $container;
+		$this->resolver = $resolver;
 		$this->className = $className;
 		$this->methodName = $methodName;
 	}
@@ -32,7 +32,7 @@ final class DelegateListener
 		$className = $this->className;
 		$methodName = $this->methodName;
 
-		$instance = $this->container->get($className);
+		$instance = ($this->resolver)($className);
 
 		if ($methodName !== null) {
 			if (!is_callable([$instance, $methodName])) {

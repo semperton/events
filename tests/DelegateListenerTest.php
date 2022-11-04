@@ -19,6 +19,14 @@ final class Service
 	}
 }
 
+final class Resolver
+{
+	public function __invoke(string $class): object
+	{
+		return new $class();
+	}
+}
+
 final class DelegateListenerTest extends TestCase
 {
 	public function testEventDelegation()
@@ -26,9 +34,10 @@ final class DelegateListenerTest extends TestCase
 		$provider = new ListenerProvider();
 		$dispatcher = new EventDispatcher($provider);
 
-		$container = new Container();
-		$delegateListener1 = new DelegateListener($container, Service::class);
-		$delegateListener2 = new DelegateListener($container, Service::class, 'action');
+		$resolver = new Resolver();
+
+		$delegateListener1 = new DelegateListener($resolver, Service::class);
+		$delegateListener2 = new DelegateListener($resolver, Service::class, 'action');
 
 		$provider->addListener(TestEvent::class, $delegateListener1);
 
@@ -52,8 +61,8 @@ final class DelegateListenerTest extends TestCase
 		$this->expectException(RuntimeException::class);
 		$this->expectErrorMessage('Service::test() is not callable');
 
-		$container = new Container();
-		$delegateListener = new DelegateListener($container, Service::class, 'test');
+		$resolver = new Resolver();
+		$delegateListener = new DelegateListener($resolver, Service::class, 'test');
 		$delegateListener->__invoke(new TestEvent());
 	}
 }
