@@ -15,7 +15,7 @@ Just use Composer:
 ```
 composer require semperton/events
 ```
-Events requires PHP 7.1+
+Events requires PHP 7.4+
 
 ## Adding listeners
 

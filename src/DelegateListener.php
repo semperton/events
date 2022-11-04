@@ -11,14 +11,11 @@ use function is_callable;
 
 final class DelegateListener
 {
-	/** @var ContainerInterface */
-	protected $container;
+	protected ContainerInterface $container;
 
-	/** @var string */
-	protected $className;
+	protected string $className;
 
-	/** @var null|string */
-	protected $methodName;
+	protected ?string $methodName;
 
 	public function __construct(
 		ContainerInterface $container,

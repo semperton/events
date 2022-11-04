@@ -16,7 +16,7 @@ use function sort;
 final class ListenerProvider implements ListenerProviderInterface
 {
 	/** @var array<array<string, callable[]>> */
-	protected $eventListeners = [];
+	protected array $eventListeners = [];
 
 	public function addListener(string $eventName, callable $listener, int $priority = 0): self
 	{
