@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Semperton\Events;
 
-use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
+use RuntimeException;
 
 use function is_callable;
 
@@ -36,12 +36,12 @@ final class DelegateListener
 
 		if ($methodName !== null) {
 			if (!is_callable([$instance, $methodName])) {
-				throw new InvalidArgumentException("< $methodName > of < $className > is not callable");
+				throw new RuntimeException("$className::$methodName() is not callable");
 			}
 			$instance->{$methodName}($event);
 		} else {
 			if (!is_callable($instance)) {
-				throw new InvalidArgumentException("< $className > is not callable");
+				throw new RuntimeException("$className::__invoke() is not callable");
 			}
 			$instance($event);
 		}

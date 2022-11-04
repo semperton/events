@@ -46,4 +46,14 @@ final class DelegateListenerTest extends TestCase
 
 		$this->assertEquals('Method', $event->getMessage());
 	}
+
+	public function testMethodNotCallable(): void
+	{
+		$this->expectException(RuntimeException::class);
+		$this->expectErrorMessage('Service::test() is not callable');
+
+		$container = new Container();
+		$delegateListener = new DelegateListener($container, Service::class, 'test');
+		$delegateListener->__invoke(new TestEvent());
+	}
 }
