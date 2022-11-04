@@ -71,8 +71,20 @@ $dispatchedEvent->message; // 'Hello World'
 
 ## DelegateListener example
 
-If you want to call service methods in response to events, you may use a ```ContainerInterface``` to resolve your services, etc. For this purpose, a ```DelegateListener``` can be helpful:
+If you want to call service methods in response to events, you may use a ```callable``` to resolve your services, etc. For this purpose a ```DelegateListener``` can be helpful:
+
 ```php
-$listener = new DelegateListener($container, Service::class, 'method');
+$resolver = static function (string $class): object {
+	return new $class();
+};
+
+$listener = new DelegateListener($resolver, Service::class, 'method');
+```
+
+Or use the ```get``` function of a PSR-11 Container as a resolver:
+
+```php
+// $container is a Psr\Container\ContainerInterface
+$listener = new DelegateListener([$container, 'get'], Service::class, 'method');
 $provider->addListener(TestEvent::class, $listener);
 ```
